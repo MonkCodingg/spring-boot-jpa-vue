@@ -1,134 +1,109 @@
 <template>
-    <div>
-        <h2>계산기</h2>
-        <router-link to='/'>홈으로 이동~</router-link>
-        <div id="calculator">
-        <div class="result">
-            <p></p>
-        </div>
-        <div @click="clear" class="clear">C</div>
-        <span @click="append('7')">7</span>
-        <span @click="append('8')">8</span>
-        <span @click="append('9')">9</span>
-        <span @click="add">+</span>
-        <span @click="append('4')">4</span>
-        <span @click="append('5')">5</span>
-        <span @click="append('6')">6</span>
-        <span>-</span>
-        <span @click="append('1')">1</span>
-        <span @click="append('2')">2</span>
-        <span @click="append('3')">3</span>
-        <span>/</span>
-        <span @click="append('0')">0</span>
-        <span>.</span>
-        <span @click="equal">=</span>
-        <span>*</span>
-        </div>
+<div>
+    <Nav></Nav>
+  <div class="calculator">
+    <div class="display">{{current || '0'}}</div>
+    <div @click="clear" class="btn">C</div>
+    <div class="btn">+/-</div>
+    <div class="btn">%</div>
+    <div @click="divide" class="btn operator">÷</div>
+    <div @click="append('7')" class="btn">7</div>
+    <div @click="append('8')" class="btn">8</div>
+    <div @click="append('9')" class="btn">9</div>
+    <div @click="times" class="btn operator">x</div>
+    <div @click="append('4')" class="btn">4</div>
+    <div @click="append('5')" class="btn">5</div>
+    <div @click="append('6')" class="btn">6</div>
+    <div @click="minus" class="btn operator">-</div>
+    <div @click="append('1')" class="btn">1</div>
+    <div @click="append('2')" class="btn">2</div>
+    <div @click="append('3')" class="btn">3</div>
+    <div @click="add" class="btn operator">+</div>
+    <div @click="append('0')" class="btn zero">0</div>
+    <div  class="btn">.</div>
+    <div @click="equal" class="btn operator">=</div>
+  </div>
+    <Footer></Footer>
     </div>
 </template>
+
 <script>
+import Nav from '@/components/common/Nav.vue'
+import Footer from'@/components/common/Footer.vue'
 export default {
-    data () {
-        return {
-            previous: null,
-            current: '',
-            operator: null,
-            operatorClicked: false
-        }
-    },
-    methods: {
-        clear () {
-            this.current = ''
-        },
-        sign () {
-            this.current =
-            this.current.charAt(0) === '-'
-                ? this.current.slice(1)
-                : `-${this.current}`
-        },
-        percent () {
-            this.current = `${parseFloat(this.current) / 100}`
-        },
-        dot () {
-            if (this.current.indexOf('.') === -1) {
-            this.append('.')
-            }
-        },
-        setPrevious () {
-            this.previous = this.current
-            this.operatorClicked = true
-        },
-        add () {
-            this.operator = (a, b) => a + b
-            this.setPrevious()
-        },
-        minus () {},
-        times () {},
-        divide () {},
-        apend (number) {
-            if (this.operatorClicked) {
-            this.current = ''
-            this.operatorClicked = false
-            }
-            this.current = `${this.current}${number}`
-        },
-        equal () {
-            this.current = this.operator(parseFloat(this.current), parseFloat(this.previous))
-            this.previous = null
-        }
+  data () {
+    return {
+      previous: null,
+      current: '',
+      operator: null,
+      operatorClicked: false
     }
+  },
+  components:{
+    Nav,Footer
+  },
+  methods: {
+    clear () {
+      this.current = ''
+    },
+    append (number) {
+      if (this.operatorClicked) {
+        this.current = ''
+        this.operatorClicked = false
+      }
+      this.current = `${this.current}${number}`
+    },
+    setPrevious () {
+      this.previous = this.current
+      this.operatorClicked = true
+    },
+    divide () {
+      this.operator = (a, b) => a / b
+      this.setPrevious()
+    },
+    times () {
+      this.operator = (a, b) => a * b
+      this.setPrevious()
+    },
+    minus () {
+      this.operator = (a, b) => a - b
+      this.setPrevious()
+    },
+    add () {
+      this.operator = (a, b) => a + b
+      this.setPrevious()
+    },
+    equal () {
+      this.current = `${this.operator(parseFloat(this.current),parseFloat(this.previous))}`
+      this.previous = null
+    }
+  }
 }
 </script>
 
-
-
 <style scoped>
-    #calculator {
-    width: 450px;
-    height: 270px;
-    margin: 50px auto 0 auto;
-    background-color: #191970;
-    padding: 10px 10px 260px 10px;
-    border-radius: 5px;
-    border-bottom: 5px solid #42729b;
-    }
-    .result {
-    width: 305px;
-    height: 40px;
-    float: left;
-    line-height: 40px;
-    background-color: #fff;
-    color: #000;
-    margin: 5px;
-    }
-    .result > p {
-    margin-left: 10px;
-    }
-    .clear,
-    span {
-    height: 40px;
-    border-bottom: 3px solid grey;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 40px;
-    cursor: pointer;
-    background-color: #ecf0f1;
-    color: #2c3e50;
-    margin: 5px;
-    }
-    .clear {
-    width: 95px;
-    float: left;
-    background-color: #c0392b;
-    color: #fff;
-    border-color: #a63125;
-    }
-    span {
-    float: left;
-    width: 95px;
-    }
-    span:hover {
-    background-color: #00bfff;
-    }
+.calculator {
+  margin: 0 auto;
+  width: 400px;
+  font-size: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(50px, auto);
+}
+.display {
+  grid-column: 1 / 5;
+  background-color: #333;
+  color: white;
+}
+.zero {
+  grid-column: 1 / 3;
+}
+.btn {
+  background-color: #f2f2f2;
+  border: 1px solid #999;
+}
+.operator {
+  background-color: orange;
+  color: white;
+}
 </style>
-
