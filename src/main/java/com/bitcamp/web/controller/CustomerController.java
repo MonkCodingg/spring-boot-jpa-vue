@@ -34,14 +34,21 @@ public class CustomerController {
     @Autowired Printer p;
     @Autowired PageProxy pxy;
     
+    // @PostMapping("")
+    // public HashMap<String,Object> join(@RequestBody CustomerDTO param){ //json과 호환(hashmap)
+    //     System.out.println("=======Post mapping========");
+    //     System.out.println(param.getCustomerId());
+    //     System.out.println(param.getPassword());
+    //     System.out.println(param.getCustomerName());
+    //     customerService.addCustomer(param);
+    //     HashMap<String, Object> map = new HashMap<>();
+    //     map.put("result", "SUCCESS");
+    //     return map;
+    // }
     @PostMapping("")
     public HashMap<String,Object> join(@RequestBody CustomerDTO param){ //json과 호환(hashmap)
-        System.out.println("=======Post mapping========");
-        System.out.println(param.getCustomerId());
-        System.out.println(param.getPassword());
-        System.out.println(param.getCustomerName());
-        customerService.addCustomer(param);
         HashMap<String, Object> map = new HashMap<>();
+        p.accept("POST 진입");
         map.put("result", "SUCCESS");
         return map;
     }
@@ -66,7 +73,7 @@ public class CustomerController {
     public String index() {
         System.out.println("CustomerController count() 경로입니다.");
         int count = customerService.countAll();
-//        p.accept("람다가 출력한 고객의 총인원 : " +count); 
+        p.accept("람다가 출력한 고객의 총인원 : " +count); 
         //System.out.println("고객의 총인원 : " +count);
         return "100";
     }
@@ -80,33 +87,31 @@ public class CustomerController {
         return customerService.login(customer);
     }
 
-/*
+
     @GetMapping("/{customerId}")
     public CustomerDTO getCustomer(@PathVariable String customerId) {
-        System.out.println("id 검색 진입 : "+customerId);
-        
-        return customerService.findCustomerByCustomerId(customerId);
-    }
-*/
-    @PutMapping("/{customerId}")
-    public CustomerDTO updateCustomer(@RequestBody CustomerDTO param) {
-        System.out.println("수정 할 id"+param.getCustomerId());
-        int res = customerService.updateCustomer(param);
-        System.out.println("===>" + res);
-        if(res == 1){
-            customer = customerService.findCustomerByCustomerId(param.getCustomerId());
-        }else{
-            System.out.println("컨트롤러 수정 실패");
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        p.accept("Get 진입 "+ customerId);
+        customer.setCustomerId("hong");
         return customer;
+//        return customerService.findCustomerByCustomerId(customerId);
+    }
+
+    @PutMapping("/{customerId}")
+    public HashMap<String,Object> updateCustomer(@PathVariable String customerId) {
+        
+        HashMap<String,Object> map = new HashMap<>();
+        p.accept("Put 진입:" +customerId);
+        map.put("result","SUCCESS");
+        return map;
     }
 
     @DeleteMapping("/{customerId}")
     public HashMap<String,Object> deleteCustomer(@PathVariable String customerId) {
         HashMap<String, Object> map = new HashMap<>();
+        p.accept("DELETE 진입: "+customerId);
         customer.setCustomerId(customerId);
-        customerService.deleteCustomer(customer);
-        map.put("result","탈퇴성공");
+        map.put("result","SUCCESS");
         return map;
     }
 

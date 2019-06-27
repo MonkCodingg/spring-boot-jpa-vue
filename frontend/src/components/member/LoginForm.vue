@@ -13,7 +13,10 @@
     <div class="checkbox">
       <label><input type="checkbox"> Recommon me</label>
     </div>
-    <button type="submit" class="btn btn-default" @click="submit">Submit</button>
+    <button class="btn btn-default" @click="get">조 회</button>
+    <button class="btn btn-default" @click="post">입 력</button>
+    <button class="btn btn-default" @click="put">수 정</button>
+    <button class="btn btn-default" @click="del">삭 제</button>
   </form>
   <Footer></Footer>
 </div>
@@ -42,17 +45,35 @@ export default {
   // }
   // es6 방식
   methods: {      
-    submit(){
-      alert("submit 함수 실행 변경 실험중입니다.");
-        axios.get('/customers/count')
-        .then(d=>{
-            alert(`SUCCESS : +${d.data}`)
-        })
-        .catch(e=>{
-            alert('ERROR')
-        })
+    get: ()=>{
+      axios.get('/customers/hong')
+      .then(d=>{
+          alert(`SUCCESS: ${d.data.customerId}`)
+      })
+      .catch(e=>{
+          alert('ERROR')
+      })
+    },
+    post: ()=>{
+      axios.post('/customers')
+      .then(d=>{
+          alert(`POST 연동성공: ${d.data.result}`)
+      })
+    },
+    put: ()=>{
+      axios.put('/customers/kim')
+      .then(d=>{
+          alert(`PUT 연동성공: ${d.data.result}`)
+      })
+    },
+    del: ()=>{
+      axios.delete('/customers/jeon')
+      .then(d=>{
+        alert(`DEL 연동성공: ${d.data.result}`)
+      })
 
     }
+
   }
 }
 </script>
