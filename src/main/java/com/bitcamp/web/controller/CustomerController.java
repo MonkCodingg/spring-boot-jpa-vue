@@ -64,11 +64,11 @@ public class CustomerController {
 
     @GetMapping("/count")
     public String index() {
-        System.out.println("CustomerController count() 경로로 들어왔음");
+        System.out.println("CustomerController count() 경로입니다.");
         int count = customerService.countAll();
-        p.accept("람다가 출력한 고객의 총인원 : " +count); 
+//        p.accept("람다가 출력한 고객의 총인원 : " +count); 
         //System.out.println("고객의 총인원 : " +count);
-        return count+"";
+        return "100";
     }
  
     @GetMapping("/{customerId}/{password}") // annotation ,메소드에 대한 기능정의

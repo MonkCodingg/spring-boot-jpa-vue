@@ -13,7 +13,7 @@
     <div class="checkbox">
       <label><input type="checkbox"> Recommon me</label>
     </div>
-    <button type="submit" class="btn btn-default" @submit="submit">Submit</button>
+    <button type="submit" class="btn btn-default" @click="submit">Submit</button>
   </form>
   <Footer></Footer>
 </div>
@@ -22,6 +22,7 @@
 <script>
 import Nav from '@/components/common/Nav.vue'
 import Footer from'@/components/common/Footer.vue'
+import axios from 'axios'
 export default {
   data: ()=>{
     return {
@@ -33,16 +34,25 @@ export default {
     Nav,
     Footer
   },
-  methods: {
-      
-      submit(){
-        alert("submit 함수 실행");
-        this.email = 
-//        let email = document.getElementById('email').value;
-//        let pwd = document.getElementById('pwd').value;
-        alert("email창 입력값은 => " + email+"\n"+"password창 입력값은=> "+pwd);
+  // es5 방식
+  // methods: {
+  //   submit: function(){
+  //     alert('되냐?')
+  //   }  
+  // }
+  // es6 방식
+  methods: {      
+    submit(){
+      alert("submit 함수 실행 변경 실험중입니다.");
+        axios.get('/customers/count')
+        .then(d=>{
+            alert(`SUCCESS : +${d.data}`)
+        })
+        .catch(e=>{
+            alert('ERROR')
+        })
 
-      }
+    }
   }
 }
 </script>
