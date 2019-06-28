@@ -71,9 +71,7 @@ export default {
       .then(d=>{
         alert(`DEL 연동성공: ${d.data.result}`)
       })
-
     }
-
   }
 }
 </script>
